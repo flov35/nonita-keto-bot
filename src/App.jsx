@@ -400,4 +400,3 @@ export default function NonitaKetoChatbot() {
       `}</style>
     </div>
   );
-}
