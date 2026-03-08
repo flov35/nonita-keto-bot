@@ -264,112 +264,132 @@ export default function NonitaKetoChatbot() {
 
   return (
     <div style={{
-      minHeight: "100vh",
-      background: "linear-gradient(135deg, #1a1a0e 0%, #0d1f0d 50%, #1a1a0e 100%)",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      fontFamily: "'Georgia', 'Times New Roman', serif", padding: "20px",
+      position: "fixed", inset: 0,
+      background: "#0b1a0b",
+      display: "flex", flexDirection: "column",
+      fontFamily: "'Helvetica Neue', Arial, sans-serif",
     }}>
-      <div style={{ position: "fixed", top: "10%", left: "5%", width: "300px", height: "300px", background: "radial-gradient(circle, rgba(134,188,66,0.08) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
-      <div style={{ position: "fixed", bottom: "15%", right: "5%", width: "250px", height: "250px", background: "radial-gradient(circle, rgba(255,200,50,0.06) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
-
-      <div style={{ width: "100%", maxWidth: "480px", display: "flex", flexDirection: "column", filter: "drop-shadow(0 25px 60px rgba(0,0,0,0.6))" }}>
-
-        {/* Header */}
-        <div style={{ background: "linear-gradient(135deg, #2d4a1e 0%, #1e3a10 100%)", borderRadius: "24px 24px 0 0", padding: "24px 28px 20px", borderBottom: "1px solid rgba(134,188,66,0.2)", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: 0, right: 0, width: "120px", height: "120px", background: "radial-gradient(circle at top right, rgba(134,188,66,0.15) 0%, transparent 70%)" }} />
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
-            <div style={{ width: "52px", height: "52px", borderRadius: "50%", background: "linear-gradient(135deg, #86bc42, #5a9e1a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", boxShadow: "0 4px 15px rgba(134,188,66,0.4)" }}>🥗</div>
-            <div>
-              <div style={{ color: "#e8f5d0", fontSize: "20px", fontWeight: "700" }}>Nonita Keto</div>
-              <div style={{ color: "#86bc42", fontSize: "11px", letterSpacing: "1px", textTransform: "uppercase" }}>Viandas & Productos Low Carb · Noni</div>
-            </div>
-            <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "6px" }}>
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#86bc42", boxShadow: "0 0 8px #86bc42" }} />
-              <span style={{ color: "#86bc42", fontSize: "11px" }}>En línea</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Messages */}
-        <div style={{ background: "rgba(15, 25, 10, 0.95)", padding: "20px 16px", minHeight: "420px", maxHeight: "420px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px", scrollbarWidth: "thin", scrollbarColor: "rgba(134,188,66,0.3) transparent" }}>
-          {messages.map((msg, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start", alignItems: "flex-end", gap: "8px", animation: "fadeIn 0.3s ease" }}>
-              {msg.role === "assistant" && (
-                <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #86bc42, #5a9e1a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", flexShrink: 0 }}>🌿</div>
-              )}
-              <div style={{
-                maxWidth: "78%", padding: "11px 15px",
-                borderRadius: msg.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
-                background: msg.role === "user" ? "linear-gradient(135deg, #86bc42, #5a9e1a)" : "rgba(40, 60, 25, 0.9)",
-                color: msg.role === "user" ? "#0d1f0d" : "#d4ebb8",
-                fontSize: "14px", lineHeight: "1.55",
-                border: msg.role === "assistant" ? "1px solid rgba(134,188,66,0.2)" : "none",
-                boxShadow: msg.role === "user" ? "0 4px 15px rgba(134,188,66,0.3)" : "0 2px 10px rgba(0,0,0,0.3)",
-              }} dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }} />
-            </div>
-          ))}
-
-          {loading && (
-            <div style={{ display: "flex", alignItems: "flex-end", gap: "8px" }}>
-              <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: "linear-gradient(135deg, #86bc42, #5a9e1a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px" }}>🌿</div>
-              <div style={{ padding: "11px 18px", borderRadius: "18px 18px 18px 4px", background: "rgba(40, 60, 25, 0.9)", border: "1px solid rgba(134,188,66,0.2)", display: "flex", gap: "4px", alignItems: "center" }}>
-                {[0,1,2].map(j => <div key={j} style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#86bc42", animation: `bounce 1.2s ease-in-out ${j*0.2}s infinite` }} />)}
-              </div>
-            </div>
-          )}
-
-          {pedidoListo && !pedidoEnviado && (
-            <div style={{ background: "rgba(134,188,66,0.12)", border: "1px solid rgba(134,188,66,0.4)", borderRadius: "14px", padding: "14px 16px", textAlign: "center", animation: "fadeIn 0.4s ease" }}>
-              <p style={{ color: "#d4ebb8", fontSize: "13px", margin: "0 0 10px" }}>✅ Pedido registrado. Tocá el botón para enviar los datos a Nonita.</p>
-              <button onClick={confirmarEnvio} style={{ background: "linear-gradient(135deg, #25D366, #128C7E)", border: "none", borderRadius: "10px", color: "white", fontWeight: "700", fontSize: "14px", padding: "10px 20px", cursor: "pointer", boxShadow: "0 4px 15px rgba(37,211,102,0.4)" }}>
-                📱 Enviar pedido por WhatsApp
-              </button>
-            </div>
-          )}
-
-          {pedidoEnviado && (
-            <div style={{ background: "rgba(37,211,102,0.1)", border: "1px solid rgba(37,211,102,0.3)", borderRadius: "14px", padding: "12px 16px", textAlign: "center", color: "#25D366", fontSize: "13px", animation: "fadeIn 0.4s ease" }}>
-              ✅ Pedido enviado a Nonita · ¡Nos vemos el martes! 🎉
-            </div>
-          )}
-
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input */}
-        <div style={{ background: "rgba(15,25,10,0.98)", borderRadius: "0 0 24px 24px", padding: "16px", borderTop: "1px solid rgba(134,188,66,0.15)", display: "flex", gap: "10px", alignItems: "flex-end" }}>
-          <textarea
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={pedidoEnviado ? "Pedido confirmado ✅" : "Escribí tu mensaje..."}
-            disabled={pedidoEnviado}
-            rows={1}
-            style={{ flex: 1, background: pedidoEnviado ? "rgba(40,60,25,0.3)" : "rgba(40,60,25,0.6)", border: "1px solid rgba(134,188,66,0.25)", borderRadius: "14px", padding: "11px 15px", color: "#d4ebb8", fontSize: "14px", fontFamily: "Georgia, serif", resize: "none", outline: "none", lineHeight: "1.5", maxHeight: "100px", overflowY: "auto" }}
-          />
-          <button
-            onClick={sendMessage}
-            disabled={loading || !input.trim() || pedidoEnviado}
-            style={{
-              width: "44px", height: "44px", borderRadius: "50%",
-              background: loading || !input.trim() || pedidoEnviado ? "rgba(134,188,66,0.2)" : "linear-gradient(135deg, #86bc42, #5a9e1a)",
-              border: "none", cursor: loading || !input.trim() || pedidoEnviado ? "not-allowed" : "pointer",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "18px", transition: "all 0.2s ease",
-              boxShadow: loading || !input.trim() ? "none" : "0 4px 15px rgba(134,188,66,0.4)", flexShrink: 0,
-            }}>
-            {loading ? "⏳" : "➤"}
-          </button>
+      {/* Header fijo — estilo WhatsApp */}
+      <div style={{
+        background: "linear-gradient(135deg, #1e3a10 0%, #2d4a1e 100%)",
+        padding: "10px 16px",
+        display: "flex", alignItems: "center", gap: "12px",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+        zIndex: 10, flexShrink: 0,
+      }}>
+        <div style={{ width: "42px", height: "42px", borderRadius: "50%", background: "linear-gradient(135deg, #86bc42, #5a9e1a)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "20px", flexShrink: 0 }}>🥗</div>
+        <div style={{ flex: 1 }}>
+          <div style={{ color: "#e8f5d0", fontSize: "16px", fontWeight: "700", lineHeight: 1.2 }}>Nonita Keto</div>
+          <div style={{ color: "#86bc42", fontSize: "12px" }}>● En línea · Noni te atiende</div>
         </div>
       </div>
 
+      {/* Fondo tipo WhatsApp con patrón */}
+      <div style={{
+        flex: 1, overflowY: "auto", overflowX: "hidden",
+        padding: "12px 10px",
+        display: "flex", flexDirection: "column", gap: "4px",
+        background: "#0d1f0d url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2386bc42' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")",
+        scrollbarWidth: "thin", scrollbarColor: "rgba(134,188,66,0.2) transparent",
+      }}>
+        {messages.map((msg, i) => (
+          <div key={i} style={{
+            display: "flex",
+            justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+            marginBottom: "2px",
+            animation: "fadeIn 0.2s ease",
+          }}>
+            <div style={{
+              maxWidth: "80%",
+              padding: "8px 12px 6px",
+              borderRadius: msg.role === "user" ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
+              background: msg.role === "user" ? "#005c4b" : "#1e3a10",
+              color: "#e8f5d0",
+              fontSize: "15px", lineHeight: "1.5",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.3)",
+              borderTop: msg.role === "assistant" ? "1px solid rgba(134,188,66,0.15)" : "none",
+              borderLeft: msg.role === "assistant" ? "1px solid rgba(134,188,66,0.15)" : "none",
+            }} dangerouslySetInnerHTML={{ __html: renderContent(msg.content) }} />
+          </div>
+        ))}
+
+        {loading && (
+          <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "2px" }}>
+            <div style={{ padding: "10px 16px", borderRadius: "12px 12px 12px 2px", background: "#1e3a10", border: "1px solid rgba(134,188,66,0.15)", display: "flex", gap: "4px", alignItems: "center" }}>
+              {[0,1,2].map(j => <div key={j} style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#86bc42", animation: `bounce 1.2s ease-in-out ${j*0.2}s infinite` }} />)}
+            </div>
+          </div>
+        )}
+
+        {pedidoListo && !pedidoEnviado && (
+          <div style={{ background: "rgba(134,188,66,0.1)", border: "1px solid rgba(134,188,66,0.3)", borderRadius: "12px", padding: "12px", textAlign: "center", margin: "8px 0", animation: "fadeIn 0.4s ease" }}>
+            <p style={{ color: "#d4ebb8", fontSize: "13px", margin: "0 0 10px" }}>✅ Pedido listo. Tocá para enviar los datos a Nonita.</p>
+            <button onClick={confirmarEnvio} style={{ background: "linear-gradient(135deg, #25D366, #128C7E)", border: "none", borderRadius: "10px", color: "white", fontWeight: "700", fontSize: "14px", padding: "10px 20px", cursor: "pointer", width: "100%" }}>
+              📱 Enviar pedido por WhatsApp
+            </button>
+          </div>
+        )}
+
+        {pedidoEnviado && (
+          <div style={{ background: "rgba(37,211,102,0.1)", border: "1px solid rgba(37,211,102,0.25)", borderRadius: "12px", padding: "12px 16px", textAlign: "center", color: "#25D366", fontSize: "14px", margin: "8px 0" }}>
+            ✅ Pedido enviado · ¡Nos vemos el martes! 🎉
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input fijo abajo — estilo WhatsApp */}
+      <div style={{
+        background: "#1a2e1a",
+        padding: "8px 10px",
+        display: "flex", gap: "8px", alignItems: "flex-end",
+        borderTop: "1px solid rgba(134,188,66,0.1)",
+        flexShrink: 0,
+      }}>
+        <textarea
+          value={input}
+          onChange={e => {
+            setInput(e.target.value);
+            e.target.style.height = "auto";
+            e.target.style.height = Math.min(e.target.scrollHeight, 100) + "px";
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder={pedidoEnviado ? "Pedido confirmado ✅" : "Escribí un mensaje..."}
+          disabled={pedidoEnviado}
+          rows={1}
+          style={{
+            flex: 1, background: "#2a3e2a",
+            border: "none", borderRadius: "22px",
+            padding: "10px 16px", color: "#e8f5d0",
+            fontSize: "15px", fontFamily: "inherit",
+            resize: "none", outline: "none",
+            lineHeight: "1.4", maxHeight: "100px",
+            overflowY: "auto",
+          }}
+        />
+        <button
+          onClick={sendMessage}
+          disabled={loading || !input.trim() || pedidoEnviado}
+          style={{
+            width: "44px", height: "44px", borderRadius: "50%", flexShrink: 0,
+            background: loading || !input.trim() || pedidoEnviado ? "#2a3e2a" : "linear-gradient(135deg, #86bc42, #5a9e1a)",
+            border: "none", cursor: loading || !input.trim() || pedidoEnviado ? "not-allowed" : "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "20px", transition: "all 0.2s ease",
+          }}>
+          {loading ? "⏳" : "➤"}
+        </button>
+      </div>
+
       <style>{`
-        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes bounce { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-6px); } }
-        textarea::placeholder { color: rgba(134,188,66,0.4); }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(134,188,66,0.3); border-radius: 2px; }
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; overflow: hidden; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes bounce { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-5px); } }
+        textarea::placeholder { color: rgba(134,188,66,0.35); }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-thumb { background: rgba(134,188,66,0.2); border-radius: 2px; }
       `}</style>
     </div>
   );
