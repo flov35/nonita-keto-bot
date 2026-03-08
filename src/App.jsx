@@ -159,9 +159,13 @@ export default function NonitaKetoChatbot() {
   }, [messages]);
 
   const callClaude = async (msgs, systemOverride = null) => {
+    const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(apiKey && { "x-api-key": apiKey }),
+      },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1000,
